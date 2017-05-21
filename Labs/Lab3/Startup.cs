@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Extensions;
 
 namespace Lab3
 {
@@ -16,9 +19,15 @@ namespace Lab3
         public Startup(IHostingEnvironment env)
         {
             Configuration = new ConfigurationBuilder()
-                                .SetBasePath(env.ContentRootPath)
-                                .AddJsonFile("appsettings.json")
-                                .Build();
+                          .SetBasePath(env.ContentRootPath)
+                          .AddJsonFile("appsettings.json")
+                          .Build();
+
+            var logFile = Path.Combine(env.ContentRootPath, "logfile.txt");
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File(logFile)
+                .CreateLogger();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
