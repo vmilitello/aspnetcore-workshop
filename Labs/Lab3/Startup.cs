@@ -32,7 +32,8 @@ namespace Lab3
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(LogLevel.Trace);
+            // loggerFactory.AddConsole(LogLevel.Trace);
+            loggerFactory.AddConsole((category, level) => category == typeof(Startup).FullName);
 
             var startupLogger = loggerFactory.CreateLogger<Startup>();
 
