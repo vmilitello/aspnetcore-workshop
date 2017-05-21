@@ -32,9 +32,10 @@ namespace Lab3
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole(LogLevel.Trace);
 
             var startupLogger = loggerFactory.CreateLogger<Startup>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -46,7 +47,12 @@ namespace Lab3
                 await context.Response.WriteAsync($"{Configuration["message"]}");
             });
             startupLogger.LogInformation("Application startup complete!");
-            
+
+            startupLogger.LogCritical("This is a critical message");
+            startupLogger.LogDebug("This is a debug message");
+            startupLogger.LogTrace("This is a trace message");
+            startupLogger.LogWarning("This is a warning message");
+            startupLogger.LogError("This is an error message");
         }
     }
 }
