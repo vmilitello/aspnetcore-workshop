@@ -34,6 +34,7 @@ namespace Lab3
         {
             loggerFactory.AddConsole();
 
+            var startupLogger = loggerFactory.CreateLogger<Startup>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -42,8 +43,10 @@ namespace Lab3
             //app.UseFileServer(); //It show directly the index.html and skip the app.Run write Async
             app.Run(async (context) =>
             {
-                 await context.Response.WriteAsync($"{Configuration["message"]}");
+                await context.Response.WriteAsync($"{Configuration["message"]}");
             });
+            startupLogger.LogInformation("Application startup complete!");
+            
         }
     }
 }
